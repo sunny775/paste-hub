@@ -1,18 +1,33 @@
 {
   "name": "paste-hub",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/server",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "client:dev": "vite src/client",
+    "client:build": "vite build src/client --outDir=../../dist/client",
+    "preview": "vite preview",
+    "server:dev": "nodemon src/server",
+    "server:build": "esbuild ./src/server --platform=node --bundle --minify --outfile=dist/server.js",
+    "dev": "concurrently \"yarn server:dev\" \"yarn client:dev\"",
+    "build": "yarn server:build && yarn client:build",
+    "start": "node dist/server"
   },
   "repository": "git@github.com:sunny775/paste-hub.git",
   "author": "Sunday Nkwuda <sonnietech@disroot.org>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
-    "nodemon": "^2.0.16"
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react": "^1.3.0",
+    "babel-plugin-styled-components": "^2.0.7",
+    "esbuild": "^0.14.43",
+    "nodemon": "^2.0.16",
+    "vite": "^2.9.9"
   }
 }
