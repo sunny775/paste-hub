@@ -93,7 +93,9 @@ export const CodeEditor = (props) => {
         setLanguage={setLanguage}
       />
       {showEditor && (
-        <div style={{ border: "1px solid #00c853", marginRight: 10, marginTop: 10 }}>{editorComponent}</div>
+        <div style={{ border: "1px solid #00c853", marginRight: 10, marginTop: 10, color: "#fff" }}>
+          {editorComponent}
+        </div>
       )}
     </div>
   );
