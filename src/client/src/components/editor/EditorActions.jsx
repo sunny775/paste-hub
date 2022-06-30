@@ -13,6 +13,7 @@ const Root = styled.div`
     margin: 0 10px;
     opacity: 0.8;
     color: #ffffff;
+    font-size: calc(10px + 2vmin);
     background-color: transparent;
     border: 1px solid #ffffff;
 
