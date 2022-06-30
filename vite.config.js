@@ -12,24 +12,24 @@ export default defineConfig({
           [
             "babel-plugin-styled-components",
             {
-              meaninglessFileNames: ["index", "styles"],
-            },
-          ],
-        ],
-      },
-    }),
+              meaninglessFileNames: ["index", "styles"]
+            }
+          ]
+        ]
+      }
+    })
   ],
   server: {
     proxy: {
       "/api": {
         target: `http://localhost:${PORT}`,
-        changeOrigin: true,
+        changeOrigin: true
         //rewrite: (path) => path.replace(/^\/api/, '')
       },
       "/ws": {
         target: `ws://localhost:${PORT}`,
-        ws: true,
-      },
-    },
-  },
+        ws: true
+      }
+    }
+  }
 });
