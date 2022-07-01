@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
-import Languages from "./Languages";
+import { Languages } from "../utils";
+import HomeButton from "./HomeButton";
 
 const Root = styled.div`
   display: flex;
@@ -10,7 +11,7 @@ const Root = styled.div`
   & > label.btn,
   select.btn {
     padding: 10px 20px;
-    margin: 0 10px;
+    margin: 0 5px;
     opacity: 0.8;
     color: #ffffff;
     font-size: calc(10px + 2vmin);
@@ -21,7 +22,6 @@ const Root = styled.div`
       margin-left: 0;
     }
     &.save {
-      margin-right: 0;
       border-color: #00c853;
       background-color: #00c853;
     }
@@ -37,21 +37,27 @@ const Root = styled.div`
       border: 1px solid white;
       color: gray;
     }
+    &:disabled {
+      opacity: 0.4;
+    }
   }
 `;
 
-function EditorActions({ download, upload, copy, uploading, copied, language, setLanguage }) {
+function ActionButtons({ download, upload, copy, uploading, copied, save, saving, language, setLanguage, savedPaste }) {
   return (
     <Root>
+      <HomeButton />
       <button onClick={download}>Download</button>
       <label className="btn" htmlFor="single">
         {uploading ? "uploading..." : "Upload a file"}
       </label>
       <VisuallyHidden>
-        <input type="file" id="single" onChange={upload} disabled={uploading} />
+        <input type="file" id="single" onChange={upload} disabled={uploading || savedPaste} />
       </VisuallyHidden>
       <button onClick={copy}>{copied ? "Copied!" : "Copy"}</button>
-      <button className="save">Save</button>
+      <button className="save" onClick={save} disabled={savedPaste}>
+        {saving ? "Saving..." : "Save"}
+      </button>
       <VisuallyHidden>
         <label htmlFor="languages">Choose Language:</label>
       </VisuallyHidden>
@@ -61,7 +67,7 @@ function EditorActions({ download, upload, copy, uploading, copied, language, se
         name="languages"
         id="languages"
         form="langform"
-        defaultValue={language}
+        value={language}
         onChange={(evt) => setLanguage(evt.target.value)}
       >
         {Object.keys(Languages).map((lang) => (
@@ -74,14 +80,17 @@ function EditorActions({ download, upload, copy, uploading, copied, language, se
   );
 }
 
-EditorActions.propTypes = {
+ActionButtons.propTypes = {
   download: PropTypes.func.isRequired,
   upload: PropTypes.func.isRequired,
   copy: PropTypes.func.isRequired,
   uploading: PropTypes.bool.isRequired,
   copied: PropTypes.bool.isRequired,
+  save: PropTypes.func.isRequired,
+  saving: PropTypes.bool.isRequired,
   setLanguage: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
+  savedPaste: PropTypes.bool
 };
 
-export default EditorActions;
+export default ActionButtons;

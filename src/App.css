@@ -1,6 +1,12 @@
+* {
+  padding: 0;
+  margin: 0;
+}
 .App {
   text-align: center;
   background: #212121;
+  font-family: "Josefin Sans", sans-serif;
+  padding-bottom: 40px;
 }
 
 .header {

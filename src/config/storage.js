@@ -1,4 +1,5 @@
 import AWS from "aws-sdk";
+import { Buffer } from "buffer";
 import { nanoid } from "nanoid";
 
 class Storage {
@@ -9,16 +10,17 @@ class Storage {
   init() {
     const S3 = new AWS.S3(this.config);
 
-    const upload = (file, metadata) =>
+    const upload = (file, metadata, Bucket = "paste-hub") =>
       new Promise((resolve, reject) => {
         const path = nanoid();
         S3.upload(
           {
             Key: path,
-            Body: Buffer.from(file.buffer, "binary"),
+            Body: Buffer.from(file.text, "binary"),
             ACL: "public-read",
+            Bucket,
             ContentType: file.mime,
-            Metadata: metadata //ext, language
+            Metadata: metadata, //ext, language
           },
           (err, data) => {
             if (err) {
@@ -49,7 +51,7 @@ class Storage {
           S3.deleteObject(
             {
               Bucket,
-              Key
+              Key,
             },
             (err, data) => {
               if (err) {
@@ -60,11 +62,23 @@ class Storage {
             }
           );
         });
-      }
+      },
     };
   }
 }
 
-const storage = new Storage({});
+const {
+  REACT_APP_LINODE_ENDPOINT,
+  REACT_APP_LINODE_REGION,
+  REACT_APP_LINODE_ACCESS_KEY_ID,
+  REACT_APP_LINODE_SECRET_ACCESS_KEY,
+} = process.env;
 
-export default storage;
+export const storage = new Storage({
+  endpoint: REACT_APP_LINODE_ENDPOINT,
+  region: REACT_APP_LINODE_REGION,
+  credentials: {
+    accessKeyId: REACT_APP_LINODE_ACCESS_KEY_ID,
+    secretAccessKey: REACT_APP_LINODE_SECRET_ACCESS_KEY,
+  },
+});
