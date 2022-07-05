@@ -1,15 +1,13 @@
-import React from "react";
-import styled from "styled-components";
 import VisuallyHidden from "@reach/visually-hidden";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { Languages } from "../utils";
 import HomeButton from "./HomeButton";
 
 const Root = styled.div`
   display: flex;
   & > button,
-  & > label.btn,
-  select.btn {
+  & > .btn {
     padding: 10px 20px;
     margin: 0 5px;
     opacity: 0.8;
@@ -41,9 +39,27 @@ const Root = styled.div`
       opacity: 0.4;
     }
   }
+  & > select.btn:active {
+    background-color: #212121;
+    color: #ffffff;
+    & > option {
+      background-color: #212121;
+    }
+  }
 `;
 
-function ActionButtons({ download, upload, copy, uploading, copied, save, saving, language, setLanguage, savedPaste }) {
+function ActionButtons({
+  download,
+  upload,
+  copy,
+  uploading,
+  copied,
+  save,
+  saving,
+  language,
+  setLanguage,
+  savedPaste,
+}) {
   return (
     <Root>
       <HomeButton />
@@ -52,7 +68,12 @@ function ActionButtons({ download, upload, copy, uploading, copied, save, saving
         {uploading ? "uploading..." : "Upload a file"}
       </label>
       <VisuallyHidden>
-        <input type="file" id="single" onChange={upload} disabled={uploading || savedPaste} />
+        <input
+          type="file"
+          id="single"
+          onChange={upload}
+          disabled={uploading || savedPaste}
+        />
       </VisuallyHidden>
       <button onClick={copy}>{copied ? "Copied!" : "Copy"}</button>
       <button className="save" onClick={save} disabled={savedPaste}>
@@ -90,7 +111,7 @@ ActionButtons.propTypes = {
   saving: PropTypes.bool.isRequired,
   setLanguage: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
-  savedPaste: PropTypes.bool
+  savedPaste: PropTypes.bool,
 };
 
 export default ActionButtons;
