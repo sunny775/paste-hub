@@ -39,10 +39,17 @@ const Root = styled.div`
       opacity: 0.4;
     }
   }
-  & > select.btn:active {
+  & > .dropdown,
+  .dropdown:active {
     background-color: #212121;
     color: #ffffff;
-    & > option {
+    border: 1px solid #ffffff;
+    font-size: calc(10px + 2vmin);
+    padding: 10px 20px;
+    margin: 0 5px;
+    opacity: 0.8;
+    border-radius: none;
+    & > option.lang {
       background-color: #212121;
     }
   }
@@ -79,20 +86,20 @@ function ActionButtons({
       <button className="save" onClick={save} disabled={savedPaste}>
         {saving ? "Saving..." : "Save"}
       </button>
+
       <VisuallyHidden>
         <label htmlFor="languages">Choose Language:</label>
       </VisuallyHidden>
 
       <select
-        className="btn"
+        className="dropdown"
         name="languages"
         id="languages"
-        form="langform"
         value={language}
         onChange={(evt) => setLanguage(evt.target.value)}
       >
         {Object.keys(Languages).map((lang) => (
-          <option key={lang} value={lang}>
+          <option key={lang} value={lang} className="lang">
             {lang}
           </option>
         ))}
